@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-deployment
+  namespace: webapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: employees
+  template:
+    metadata:
+      labels:
+        app: employees
+    spec:
+      containers:
+        - name: myapp-container
+          image: 341161928846.dkr.ecr.us-east-1.amazonaws.com/rselvaraj03:appv1.0
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DBPWD
+              value: "pw"
+            - name: DBPORT
+              value: "3306"
+            - name: DBHOST
+              value: mysql.sqldb.svc.cluster.local
+            - name: DBUSER
+              value: "root"
+            - name: APP_NAME
+              value: "my_app"
+            - name: DATABASE
+              value: employees
+            - name: APP_COLOR
+              value: "blue"
+      restartPolicy: Always
